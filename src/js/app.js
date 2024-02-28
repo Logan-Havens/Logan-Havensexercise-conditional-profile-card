@@ -26,28 +26,34 @@ function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
-  let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
-  if (variables.includeCover == false) cover = "<div class='cover'></div>";
+  let cover = variables.includeCover
+    ? `<div class="cover" style="background-image: url('${variables.background}')"></div>`
+    : "<div class='cover'></div>";
+
   const firstName = variables.name || "Your first name";
   const lastName = variables.lastName || "Your last name";
   const role = variables.role || "Web Developer";
-  const socialMediaPosition = variables.socialMediaPosition || "position-right";
-  // reset the website body with the new html output
-  document.querySelector("#widget_content").innerHTML = `<div class="widget">
-            ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>${firstName + " " + lastName}</h1>
-          <h2>${role}</h2>
-          <h3>Miami, USA</h3>
-          <ul class="${socialMediaPosition}">
-            <li><a href="${variables.twitter ||
-              "https://twitter.com/4geeksacademy"}"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
-    `;
+
+  const twitter = variables.twitter || "Twitter";
+  const github = variables.github || "GitHub";
+  const linkedin = variables.linkedin || "LinkedIn";
+  const instagram = variables.instagram || "Instagram";
+
+  document.querySelector("#widget_content").innerHTML = `
+    <div class="widget">
+      ${cover}
+      <img src="${variables.avatarURL}" class="photo" />
+      <h1>${firstName} ${lastName}</h1>
+      <h2>${role}</h2>
+      <h3>${variables.city}, ${variables.country}</h3>
+      <ul class="${variables.socialMediaPosition}">
+        <li><a href="https://twitter.com/${twitter}"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="https://github.com/${github}"><i class="fa fa-github"></i></a></li>
+        <li><a href="https://linkedin.com/in/${linkedin}"><i class="fa fa-linkedin"></i></a></li>
+        <li><a href="https://instagram.com/${instagram}"><i class="fa fa-instagram"></i></a></li>
+      </ul>
+    </div>
+  `;
 }
 
 /**
